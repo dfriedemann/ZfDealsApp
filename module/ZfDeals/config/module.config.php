@@ -1,23 +1,41 @@
 <?php
-namespace ZfDeals;
-
-class Module
-{
-	/* Wo ist die Configuration zu finden ? */
-	public function getConfig()
-	{
-		return include __DIR__ . '/config/module.config.php';
-	}
-	
-	public function getAutoloaderConfig()
-	{
-		return array(
-			'Zend\Loader\StandardAutoloader' => array(
-				'namespace' => array(
-					__NAMESPACE__ => __DIR__.'/src'.__NAMESPACE__,
+return array(
+	'router' => array(
+		'routes' => array(
+			'zf-deals\admin\home' => array (
+				'type' => 'Zend\Mvc\Router\Http\Literal',
+				'options' => array(
+					'route'	=> '/deals/admin',
+					'defaults' => array(
+						'controller' => 'ZfDeals\Controller\Admin',
+						'action' => 'index',	
 					),
-					
+				),	
+			),
+			'zf-deals\admin\product\add' => array(
+				'type' => 'Zend\Mvc\Router\Http\Literal',
+				'options' => array(
+ 					'route' => '/deals/admin/product/add',
+					'defaults'	=> array(
+						'controller' => 'ZfDeals\Controller\Admin',
+						'action' => 'add-product',	
+					),	
 				),
-			);
-	}
-}
+			),	
+ 		),
+ 	),
+	'controllers' => array(
+		'invokables' => array(
+			'ZfDeals\Controller\Admin' => 'ZfDeals\Controller\AdminController'
+		),
+			
+	),
+	'view_manager' => array(
+		'template_map' => array(
+			'zf-deals/layout/admin' => __DIR__.'/../view/layout/admin.phtml',
+		),
+		'template_path_stack' => array(
+			__DIR__.'/../view',
+		),
+	),
+);
